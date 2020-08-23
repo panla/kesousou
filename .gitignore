@@ -1,0 +1,8 @@
+.idea
+.vscode
+*.pyc
+*.sqlite3
+/tmp
+/logs
+/static
+/upload
