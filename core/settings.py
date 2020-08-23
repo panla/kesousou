@@ -157,6 +157,6 @@ JWT_AUTH = {
 }
 
 try:
-    from core.local.dev import *
+    from core.local.settings import *
 except ImportError:
     pass
