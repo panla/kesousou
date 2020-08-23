@@ -127,6 +127,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL = 'model.User'
+
+AUTHENTICATION_BACKENDS = (
+    'common.users.UserBackend',
+)
+
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
