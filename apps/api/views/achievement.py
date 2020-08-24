@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
 from common.page import get_results
+from common.order import order_params
 from model.models import Expert, Achievement
 from api.parameters.achievement import achievement_filter_params
 from api.serializers.achievement import AchievementListSerializer, AchievementDetailSerializer
@@ -15,31 +16,36 @@ from api.serializers.achievement import AchievementListSerializer, AchievementDe
 
 class AchievementsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=achievement_filter_params,
-        operation_id='achievement_list', responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
+        manual_parameters=achievement_filter_params + order_params, operation_id='achievement_list',
+        responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
     )
     def get(self, request, *args, **kwargs):
-        queryset = Achievement.objects.all()
         text = request.query_params.get('text')
-        sn = request.query_params.get('sn')
+        order = request.query_params.get('order')
+        queryset = Achievement.objects.all()
         if text:
             queryset = queryset.filter(
-                Q(sn=text) | Q(title__contains=text) | Q(organizations__contains=text) | Q(creators__contains=text)
-                | Q(keywords__contains=text) | Q(abstract__contains=text)
+                Q(sn=text) | Q(title__contains=text) | Q(keywords__contains=text) | Q(organizations__contains=text)
+                | Q(creators__contains=text)
             )
+        if order:
+            queryset = queryset.order_by(order)
         data = get_results(request, queryset, self, AchievementListSerializer)
         return Response({'count': queryset.count(), 'achievements': data}, status.HTTP_200_OK)
 
 
 class ExpertAchievementsView(APIView):
     @swagger_auto_schema(
-        operation_id='expert_achievement_list', responses={200: AchievementListSerializer(many=True)},
-        tags=['achievements']
+        manual_parameters=order_params, operation_id='expert_achievement_list',
+        responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
     )
     def get(self, request, pk, *args, **kwargs):
+        order = request.query_params.get('order')
         expert = Expert.objects.filter(id=pk)
         if expert:
             queryset = expert.achievements
+            if order:
+                queryset = queryset.order_by(order)
             data = get_results(request, queryset, self, AchievementListSerializer)
             return Response({'count': queryset.count(), 'achievements': data}, status.HTTP_200_OK)
         else:

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
 from common.page import get_results
+from common.order import order_params
 from model.models import Expert, Periodical
 from api.serializers.periodical import PeriodicalListSerializer, PeriodicalDetailSerializer
 from api.parameters.periodical import periodical_filter_params
@@ -15,30 +16,35 @@ from api.parameters.periodical import periodical_filter_params
 
 class PeriodicalsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=periodical_filter_params,
-        operation_id='periodical_list', responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
+        manual_parameters=periodical_filter_params + order_params, operation_id='periodical_list',
+        responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, *args, **kwargs):
-        queryset = Periodical.objects.all()
         text = request.query_params.get('text')
+        order = request.query_params.get('order')
+        queryset = Periodical.objects.all()
         if text:
             queryset = queryset.filter(
-                Q(doi=text) | Q(title__contains=text) | Q(first_creator=text) | Q(periodical_name=text)
-                | Q(foundations__contains=text) | Q(keywords__contains=text) | Q(abstract__contains=text)
+                Q(doi=text) | Q(title__contains=text) | Q(first_creator=text) | Q(keywords__contains=text)
             )
+        if order:
+            queryset = queryset.order_by(order)
         data = get_results(request, queryset, self, PeriodicalDetailSerializer)
         return Response({'count': queryset.count(), 'periodicals': data}, status.HTTP_200_OK)
 
 
 class ExpertPeriodicalsView(APIView):
     @swagger_auto_schema(
-        operation_id='expert_periodical_list', responses={200: PeriodicalListSerializer(many=True)},
-        tags=['periodicals']
+        manual_parameters=order_params, operation_id='expert_periodical_list',
+        responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, pk, *args, **kwargs):
+        order = request.query_params.get('order')
         expert = Expert.objects.filter(id=pk).first()
         if expert:
             queryset = expert.periodicals
+            if order:
+                queryset = queryset.order_by(order)
             data = get_results(request, queryset, self, PeriodicalListSerializer)
             return Response({'count': queryset.count(), 'periodicals': data}, status.HTTP_200_OK)
         else:

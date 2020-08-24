@@ -74,18 +74,25 @@ class UserManager(BaseUserManager):
         return self.none()
 
 
-class AbstractBaseUser(AbstractModel):
+class AbstractUser(PermissionsMixin):
     username = models.CharField(verbose_name='username', max_length=150, null=True)
     mobile = models.CharField(verbose_name='手机号', max_length=11, db_index=True, unique=True, null=True)
     email = models.EmailField(verbose_name='email', db_index=True, unique=True, null=True)
     password = models.CharField(verbose_name='password', max_length=128)
+    is_active = models.BooleanField(verbose_name='active', default=True)
 
-    is_active = True
     _password = None
+    _is_active = True
+    objects = UserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'password']
+
+    class Meta:
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
+        abstract = True
 
     @property
     def is_anonymous(self):
@@ -129,47 +136,29 @@ class AbstractBaseUser(AbstractModel):
         return salted_hmac(key_salt, self.password).hexdigest()
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self._password is not None:
-            password_validation.password_changed(self._password, self)
-            self._password = None
+        if self.mobile or self.email:
+            super().save(*args, **kwargs)
+            if self._password is not None:
+                password_validation.password_changed(self._password, self)
+                self._password = None
+        else:
+            raise Exception('mobile and email is none')
 
     def get_username(self):
         return getattr(self, self.USERNAME_FIELD)
 
     def clean(self):
         setattr(self, self.USERNAME_FIELD, self.normalize_username(self.get_username()))
+        self.email = self.__class__.objects.normalize_email(self.email)
 
     def natural_key(self):
         return (self.get_username(),)
-
-    class Meta:
-        abstract = True
 
     def __str__(self):
         return self.get_username()
 
 
-class AbstractUser(AbstractBaseUser, PermissionsMixin):
-    is_active = models.BooleanField(verbose_name='active', default=True)
-
-    objects = UserManager()
-
-    class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
-        abstract = True
-
-    def clean(self):
-        super().clean()
-        self.email = self.__class__.objects.normalize_email(self.email)
-
-
 class User(AbstractUser):
-    avatar = models.CharField(verbose_name='用户头像url', max_length=400, null=True)
-    location = models.CharField(verbose_name='所在地', max_length=1000, null=True)
-    organization = models.CharField(verbose_name='所属机构', max_length=1000, null=True)
-
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
         db_table = 'users'
