@@ -253,7 +253,7 @@ class Patent(AbstractModel):
 class Periodical(AbstractModel):
     original_id = models.CharField('源数据id', max_length=100, null=True, unique=True, db_index=True)
     title = models.CharField('期刊标题', max_length=100, db_index=True)
-    doi = models.CharField('doi', max_length=100, null=True, unique=True, db_index=True)
+    doi = models.CharField('doi', max_length=100, null=True, db_index=True)
     abstract = models.TextField('期刊简介', null=True)
     publish_date = models.DateField('发布日期', null=True)
     keywords = JSONField(verbose_name='关键词', null=True)
@@ -275,7 +275,7 @@ class Periodical(AbstractModel):
 
 class Achievement(AbstractModel):
     original_id = models.CharField('源数据id', max_length=100, null=True, unique=True, db_index=True)
-    sn = models.CharField('项目年度编号', max_length=100, null=True, unique=True, db_index=True)
+    sn = models.CharField('项目年度编号', max_length=100, null=True, db_index=True)
     title = models.CharField('标题', max_length=100, db_index=True)
     organizations = JSONField(verbose_name='完成单位', null=True)
     creators = JSONField(verbose_name='完成人', null=True)
