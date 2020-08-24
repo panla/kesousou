@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from common.page import get_results
+from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Patent
 from api.serializers.patent import PatentListSerializer, PatentDetailSerializer
@@ -16,7 +16,7 @@ from api.parameters.patent import patent_filter_params
 
 class PatentsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=patent_filter_params + order_params, operation_id='patent_list',
+        manual_parameters=patent_filter_params + order_params + page_params, operation_id='patent_list',
         responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, *args, **kwargs):
@@ -35,7 +35,7 @@ class PatentsView(APIView):
 
 class ExpertPatentsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=order_params, operation_id='expert_patent_list',
+        manual_parameters=order_params + page_params, operation_id='expert_patent_list',
         responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, pk, *args, **kwargs):

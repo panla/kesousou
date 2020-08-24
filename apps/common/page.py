@@ -1,8 +1,19 @@
 # -*- encoding=utf-8 -*-
 
-from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import status
+from drf_yasg import openapi
+
+page_params = [
+    openapi.Parameter(
+        name='page', in_=openapi.IN_QUERY, description='page-number',
+        type=openapi.TYPE_INTEGER
+    ),
+    openapi.Parameter(
+        name='size', in_=openapi.IN_QUERY, description='page-size',
+        type=openapi.TYPE_INTEGER
+    )
+]
+
 
 class PagePagination(PageNumberPagination):
     """ 自定义分页"""

@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from common.page import get_results
+from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Conferences
 from api.parameters.conference import conference_filter_params
@@ -16,7 +16,7 @@ from api.serializers.conference import ConferenceListSerializer, ConferenceDetai
 
 class ConferencesView(APIView):
     @swagger_auto_schema(
-        manual_parameters=conference_filter_params + order_params, operation_id='conference_list',
+        manual_parameters=conference_filter_params + order_params + page_params, operation_id='conference_list',
         responses={200: ConferenceListSerializer(many=True)}, tags=['conferences']
     )
     def get(self, request, *args, **kwargs):
@@ -35,7 +35,7 @@ class ConferencesView(APIView):
 
 class ExpertConferencesView(APIView):
     @swagger_auto_schema(
-        manual_parameters=order_params, operation_id='expert_conference_list',
+        manual_parameters=order_params + page_params, operation_id='expert_conference_list',
         responses={200: ConferenceListSerializer(many=True)}, tags=['conferences']
     )
     def get(self, request, pk, *args, **kwargs):

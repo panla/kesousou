@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from common.page import get_results
+from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert
 from api.parameters.expert import expert_filter_params
@@ -17,7 +17,7 @@ from api.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
 class ExpertListView(APIView):
 
     @swagger_auto_schema(
-        manual_parameters=expert_filter_params + order_params, operation_id='expert_list',
+        manual_parameters=expert_filter_params + order_params + page_params, operation_id='expert_list',
         responses={200: ExpertListSerializer(many=True)}, tags=['experts']
     )
     def get(self, request, *args, **kwargs):

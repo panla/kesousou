@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from common.page import get_results
+from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Periodical
 from api.serializers.periodical import PeriodicalListSerializer, PeriodicalDetailSerializer
@@ -16,7 +16,7 @@ from api.parameters.periodical import periodical_filter_params
 
 class PeriodicalsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=periodical_filter_params + order_params, operation_id='periodical_list',
+        manual_parameters=periodical_filter_params + order_params + page_params, operation_id='periodical_list',
         responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, *args, **kwargs):
@@ -35,7 +35,7 @@ class PeriodicalsView(APIView):
 
 class ExpertPeriodicalsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=order_params, operation_id='expert_periodical_list',
+        manual_parameters=order_params + page_params, operation_id='expert_periodical_list',
         responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, pk, *args, **kwargs):

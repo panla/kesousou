@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from common.page import get_results
+from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Achievement
 from api.parameters.achievement import achievement_filter_params
@@ -16,7 +16,7 @@ from api.serializers.achievement import AchievementListSerializer, AchievementDe
 
 class AchievementsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=achievement_filter_params + order_params, operation_id='achievement_list',
+        manual_parameters=achievement_filter_params + order_params + page_params, operation_id='achievement_list',
         responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
     )
     def get(self, request, *args, **kwargs):
@@ -36,7 +36,7 @@ class AchievementsView(APIView):
 
 class ExpertAchievementsView(APIView):
     @swagger_auto_schema(
-        manual_parameters=order_params, operation_id='expert_achievement_list',
+        manual_parameters=order_params + page_params, operation_id='expert_achievement_list',
         responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
     )
     def get(self, request, pk, *args, **kwargs):
