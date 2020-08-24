@@ -52,6 +52,9 @@ class ExpertPatentsView(APIView):
 
 
 class PatentView(generics.RetrieveAPIView):
+    queryset = Patent.objects.all()
+    serializer_class = PatentDetailSerializer
+
     @swagger_auto_schema(
         operation_id='patent_read', responses={200: PatentDetailSerializer()}, tags=['patents']
     )
