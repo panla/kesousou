@@ -3,7 +3,7 @@
 *.pyc
 *.sqlite3
 core/local/*.py
-/tmp
-/logs
-/static
-/upload
+tmp
+logs
+static
+upload
