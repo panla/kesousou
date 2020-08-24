@@ -6,5 +6,5 @@ from admin.views.user import UserJWTView
 
 app_name = 'admin'
 urlpatterns = [
-    re_path(r'^api-token/$', UserJWTView.as_view(), name='create_user_token'),
+    re_path(r'^/users/token/$', UserJWTView.as_view(), name='create_token'),
 ]

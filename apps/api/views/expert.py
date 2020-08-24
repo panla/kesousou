@@ -7,26 +7,26 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from model.models import Expert
-from api.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
 from common.page import get_results
+from model.models import Expert
+from api.parameters.expert import expert_filter_params
+from api.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
 
 
 class ExpertListView(APIView):
 
     @swagger_auto_schema(
+        manual_parameters=expert_filter_params,
         operation_id='expert_list', responses={200: ExpertListSerializer(many=True)}, tags=['experts']
     )
     def get(self, request, *args, **kwargs):
+        text = request.query_params.get('text')
         queryset = Expert.objects.all()
-        if request.query_params.get('text'):
-            text = request.query_params.get('text')
+        if text:
             queryset = queryset.filter(
                 Q(name=text) | Q(organization=text) | Q(major__contains=text) | Q(research_areas__contains=text)
+                | Q(personal_introduction__contains=text | Q(keywords__contains=text))
             )
-        elif request.query_params.get('keywords'):
-            keywords = request.query_params.get('keywords')
-            queryset = queryset.filter(Q(keywords__contains=keywords))
         data = get_results(request, queryset, self, ExpertListSerializer)
         return Response({'count': queryset.count(), 'experts': data}, status.HTTP_200_OK)
 

@@ -20,7 +20,10 @@ jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 
 
 class UserJWTView(APIView):
-    @swagger_auto_schema(request_body=create_token_body, responses={201: create_token_response})
+    @swagger_auto_schema(
+        request_body=create_token_body, operation_id='create_token', responses={201: create_token_response},
+        tags=['users']
+    )
     def post(self, request, *args, **kwargs):
         user = authenticate(request.data.get('username'), request.data.get('password'))
         if user:

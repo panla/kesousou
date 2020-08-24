@@ -7,26 +7,26 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
+from common.page import get_results
 from model.models import Expert, Patent
 from api.serializers.patent import PatentListSerializer, PatentDetailSerializer
-from common.page import get_results
+from api.parameters.patent import patent_filter_params
 
 
-class PatentListView(APIView):
+class PatentsView(APIView):
     @swagger_auto_schema(
+        manual_parameters=patent_filter_params,
         operation_id='patent_list', responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, *args, **kwargs):
         queryset = Patent.objects.all()
-        if request.query_params.get('text'):
+        if request.data.get('text'):
             text = request.query_params.get('text')
             queryset = queryset.filter(
-                Q(name__contains=text) | Q(name=text) | Q(abstract__contains=text)
+                Q(patent_code=text) | Q(publication_number=text) | Q(name__contains=text) | Q(abstract__contains=text)
+                | Q(inventors__contains=text)
             )
-        elif request.query_params.get('code'):
-            code = request.query_params.get('code')
-            queryset = queryset.filter(Q(patent_code=code) | Q(publication_number=code))
-            data = get_results(request, queryset, self, PatentListSerializer)
+        data = get_results(request, queryset, self, PatentListSerializer)
         return Response({'count': queryset.count(), 'patents': data}, status.HTTP_200_OK)
 
 
@@ -44,7 +44,7 @@ class ExpertPatentsView(APIView):
             return Response({'error': 'there is no such expert'}, status.HTTP_404_NOT_FOUND)
 
 
-class PatentDetailView(generics.RetrieveAPIView):
+class PatentView(generics.RetrieveAPIView):
     @swagger_auto_schema(
         operation_id='patent_read', responses={200: PatentDetailSerializer()}, tags=['patents']
     )
