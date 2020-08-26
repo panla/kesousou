@@ -74,7 +74,7 @@ class UserManager(BaseUserManager):
         return self.none()
 
 
-class AbstractUser(PermissionsMixin):
+class AbstractUser(AbstractModel, PermissionsMixin):
     username = models.CharField(verbose_name='username', max_length=150, null=True)
     mobile = models.CharField(verbose_name='手机号', max_length=11, db_index=True, unique=True, null=True)
     email = models.EmailField(verbose_name='email', db_index=True, unique=True, null=True)
