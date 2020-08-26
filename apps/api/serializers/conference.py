@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from model.models import Conferences
+from model.models import Conference
 
 
 class ConferenceListSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class ConferenceListSerializer(serializers.ModelSerializer):
     classifications = serializers.ListField(required=False)
 
     class Meta:
-        model = Conferences
+        model = Conference
         fields = [
             'id', 'title', 'first_creator', 'sponsors', 'classifications', 'experts'
         ]
@@ -24,7 +24,7 @@ class ConferenceDetailSerializer(serializers.ModelSerializer):
     classifications = serializers.ListField(required=False)
 
     class Meta:
-        model = Conferences
+        model = Conference
         exclude = [
             'original_id', 'created_at', 'updated_at'
         ]

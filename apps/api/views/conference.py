@@ -9,7 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from common.page import get_results, page_params
 from common.order import order_params
-from model.models import Expert, Conferences
+from model.models import Expert, Conference
 from api.parameters.conference import conference_filter_params
 from api.serializers.conference import ConferenceListSerializer, ConferenceDetailSerializer
 
@@ -22,7 +22,7 @@ class ConferencesView(APIView):
     def get(self, request, *args, **kwargs):
         text = request.query_params.get('text')
         order = request.query_params.get('order')
-        queryset = Conferences.objects.all()
+        queryset = Conference.objects.all()
         if text:
             queryset = queryset.filter(
                 Q(title__contains=text) | Q(first_creator=text) | Q(keywords__contains=text)
@@ -53,7 +53,7 @@ class ExpertConferencesView(APIView):
 
 class ConferenceView(generics.RetrieveAPIView):
     serializer_class = ConferenceListSerializer
-    queryset = Conferences.objects.all()
+    queryset = Conference.objects.all()
 
     @swagger_auto_schema(
         operation_id='conference_read', responses={200: ConferenceDetailSerializer()}, tags=['conferences']
