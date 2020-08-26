@@ -33,9 +33,36 @@ user_properties = {
     'email': openapi.Schema(description='邮箱', type=openapi.TYPE_STRING),
     'mobile': openapi.Schema(description='手机号', type=openapi.TYPE_STRING),
     'password': openapi.Schema(description='密码', type=openapi.TYPE_STRING),
+    'is_superuser': openapi.Schema(description='是否是管理员', type=openapi.TYPE_BOOLEAN),
+    'is_active': openapi.Schema(description='是否有效', type=openapi.TYPE_BOOLEAN),
 }
 
-create_user_parameters = openapi.Schema(
-    title='params', description='创建一个用户', type=openapi.TYPE_OBJECT,
-    properties=user_properties, required=['password']
+user_create_parameters = openapi.Schema(
+    title='user', description='创建user', type=openapi.TYPE_OBJECT,
+    properties=user_properties,
+    required=['password']
 )
+
+user_update_parameters = openapi.Schema(
+    title='user', description='更新user', type=openapi.TYPE_OBJECT,
+    properties=user_properties,
+)
+
+user_filter_params = [
+    openapi.Parameter(
+        name='text', in_=openapi.IN_QUERY, description='username or mobile or email',
+        type=openapi.TYPE_STRING
+    ),
+    openapi.Parameter(
+        name='is_superuser', in_=openapi.IN_QUERY, description='is_superuser',
+        type=openapi.TYPE_BOOLEAN,
+    ),
+    openapi.Parameter(
+        name='is_active', in_=openapi.IN_QUERY, description='is_active',
+        type=openapi.TYPE_BOOLEAN,
+    ),
+    openapi.Parameter(
+        name='order', in_=openapi.IN_QUERY, description='order param',
+        type=openapi.TYPE_STRING
+    )
+]
