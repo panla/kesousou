@@ -42,7 +42,7 @@ class ExpertPatentsView(APIView):
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=pk).first()
         if expert:
-            queryset = expert.patents
+            queryset = expert.patents.all()
             if order:
                 queryset = queryset.order_by(order_params)
             data = get_results(request, queryset, self, PatentListSerializer)

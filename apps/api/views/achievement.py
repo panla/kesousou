@@ -43,7 +43,7 @@ class ExpertAchievementsView(APIView):
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=pk)
         if expert:
-            queryset = expert.achievements
+            queryset = expert.achievements.all()
             if order:
                 queryset = queryset.order_by(order)
             data = get_results(request, queryset, self, AchievementListSerializer)

@@ -42,7 +42,7 @@ class ExpertConferencesView(APIView):
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=pk).first()
         if expert:
-            queryset = expert.conferences
+            queryset = expert.conferences.all()
             if order:
                 queryset = queryset.order_by(order)
             data = get_results(request, queryset, self, ConferenceListSerializer)
