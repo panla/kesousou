@@ -134,6 +134,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',

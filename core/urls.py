@@ -15,14 +15,7 @@ Including another URLconf
 """
 from django.urls import path, include
 
-try:
-    from core.local.docs import *
-except ImportError:
-    pass
-
 urlpatterns = [
-    path('doc/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('accounts/profile/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', include('admin.urls', namespace='admin')),
     path('api/', include('api.urls', namespace='api')),
