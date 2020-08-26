@@ -2,7 +2,11 @@
 
 from django.urls import re_path, path
 
-from core.local.docs import admin_schema_view
+from core.docs import admin_schema_view
+try:
+    from core.local.docs import admin_schema_view
+except ImportError:
+    pass
 from admin.views.user import UserJWTView, UsersView, UserView
 from admin.views.expert import ExpertsView, ExpertView
 from admin.views.achievement import AchievementsView, ExpertAchievementsView, AchievementView
