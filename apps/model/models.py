@@ -79,6 +79,7 @@ class AbstractUser(PermissionsMixin):
     mobile = models.CharField(verbose_name='手机号', max_length=11, db_index=True, unique=True, null=True)
     email = models.EmailField(verbose_name='email', db_index=True, unique=True, null=True)
     password = models.CharField(verbose_name='password', max_length=128)
+    is_superuser = models.BooleanField(verbose_name='是否是管理员', default=False)
     is_active = models.BooleanField(verbose_name='active', default=True)
 
     _password = None
