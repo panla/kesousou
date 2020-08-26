@@ -204,7 +204,7 @@ class ActionRecord(AbstractModel):
         db_table = 'action_records'
 
 
-class Conferences(AbstractModel):
+class Conference(AbstractModel):
     original_id = models.CharField('源数据id', max_length=100, null=True, unique=True, db_index=True)
     title = models.CharField('论文标题', max_length=100, db_index=True)
     abstract = models.TextField('论文摘要', null=True)
