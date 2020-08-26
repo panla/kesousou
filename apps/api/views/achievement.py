@@ -39,9 +39,9 @@ class ExpertAchievementsView(APIView):
         manual_parameters=order_params + page_params, operation_id='expert_achievement_list',
         responses={200: AchievementListSerializer(many=True)}, tags=['achievements']
     )
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, expert_id, *args, **kwargs):
         order = request.query_params.get('order')
-        expert = Expert.objects.filter(id=pk)
+        expert = Expert.objects.filter(id=expert_id).first()
         if expert:
             queryset = expert.achievements.all()
             if order:

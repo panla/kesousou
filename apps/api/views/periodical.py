@@ -38,9 +38,9 @@ class ExpertPeriodicalsView(APIView):
         manual_parameters=order_params + page_params, operation_id='expert_periodical_list',
         responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, expert_id, *args, **kwargs):
         order = request.query_params.get('order')
-        expert = Expert.objects.filter(id=pk).first()
+        expert = Expert.objects.filter(id=expert_id).first()
         if expert:
             queryset = expert.periodicals.all()
             if order:

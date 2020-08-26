@@ -38,9 +38,9 @@ class ExpertConferencesView(APIView):
         manual_parameters=order_params + page_params, operation_id='expert_conference_list',
         responses={200: ConferenceListSerializer(many=True)}, tags=['conferences']
     )
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, expert_id, *args, **kwargs):
         order = request.query_params.get('order')
-        expert = Expert.objects.filter(id=pk).first()
+        expert = Expert.objects.filter(id=expert_id).first()
         if expert:
             queryset = expert.conferences.all()
             if order:
