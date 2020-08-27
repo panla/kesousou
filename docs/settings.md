@@ -84,3 +84,21 @@ DATABASES = {
     }
 }
 ```
+
+## SECRET_KEY
+
+生成 SECRET_KEY
+
+```python
+from django.core.management import utils
+
+print(utils.get_random_secret_key())
+```
+
+## 静态文件
+
+```text
+STATIC_ROOT
+MEDIA_URL
+MEDIA_ROOT
+```
