@@ -1,21 +1,23 @@
 import argparse
 import json
 import os
+import sys
 
 import django
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--input', type=str, required=True, help='数据文件夹')
+parser.add_argument('-i', '--input', type=str, required=True)
 args = parser.parse_args()
 input_dir = args.input
 if not os.path.isdir(input_dir):
-    raise Exception('input_dir is not a dir')
+    sys.exit(1)
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
-
 django.setup()
 
-from model.models import Expert, Conferences
+from model.models import Expert, Conference
 
 
 def read_json(path):
@@ -42,13 +44,17 @@ if __name__ == '__main__':
     for org, expert_name, file, path in get_names():
         dic = read_json(path)
         original_id = file.replace('.json', '')
-        if Conferences.objects.filter(original_id=original_id):
+        expert = Expert.objects.filter(organization=org, name=expert_name).first()
+        conference = Conference.objects.filter(original_id=original_id).first()
+        if conference:
             pass
         else:
-            expert = Expert.objects.filter(organization=org, name=expert_name).first()
             dic['original_id'] = original_id
             try:
-                conference = Conferences.objects.create(**dic)
-                expert.conferences.add(conference)
+                conference = Conference.objects.create(**dic)
             except Exception as exc:
                 print(exc, org, expert_name, file)
+        try:
+            expert.conferences.add(conference)
+        except Exception as exc:
+            print(exc, org, expert_name, file)
