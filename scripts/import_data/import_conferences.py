@@ -47,14 +47,16 @@ if __name__ == '__main__':
         expert = Expert.objects.filter(organization=org, name=expert_name).first()
         conference = Conference.objects.filter(original_id=original_id).first()
         if conference:
-            pass
+            print(f'conference,id:{conference.id},original_id:{original_id} 已存在')
         else:
             dic['original_id'] = original_id
             try:
                 conference = Conference.objects.create(**dic)
+                print(f'conference,创建,id:{conference.id},original_id:{original_id}')
             except Exception as exc:
                 print(exc, org, expert_name, file)
         try:
             expert.conferences.add(conference)
+            print(f'关联专家:{expert.id} 与 conference:{conference.id}')
         except Exception as exc:
             print(exc, org, expert_name, file)

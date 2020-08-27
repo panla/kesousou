@@ -47,14 +47,16 @@ if __name__ == '__main__':
         expert = Expert.objects.filter(organization=org, name=expert_name).first()
         achievement = Achievement.objects.filter(original_id=original_id).first()
         if achievement:
-            pass
+            print(f'achievements,id:{achievement.id},original_id:{original_id} 已存在')
         else:
             dic['original_id'] = original_id
             try:
                 achievement = Achievement.objects.create(**dic)
+                print(f'achievements,创建,id:{achievement.id},original_id:{original_id}')
             except Exception as exc:
-                print(exc, org, expert_name, file)
+                print('导入achievement出现异常', exc, org, expert_name, file)
         try:
             expert.achievements.add(achievement)
+            print(f'关联专家:{expert.id} 与 achievement:{achievement.id}')
         except Exception as exc:
             print(exc, org, expert_name, file)

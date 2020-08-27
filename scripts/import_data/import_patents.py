@@ -47,14 +47,16 @@ if __name__ == '__main__':
         expert = Expert.objects.filter(organization=org, name=expert_name).first()
         patent = Patent.objects.filter(original_id=original_id).first()
         if patent:
-            pass
+            print(f'patent,id:{patent.id},original_id:{original_id} 已存在')
         else:
             dic['original_id'] = original_id
             try:
                 patent = Patent.objects.create(**dic)
+                print(f'patent,创建,id:{patent.id},original_id:{original_id}')
             except Exception as exc:
                 print(exc, org, expert_name, file)
         try:
             expert.patents.add(patent)
+            print(f'关联专家:{expert.id} 与 patent:{patent.id}')
         except Exception as exc:
             print(exc, org, expert_name, file)

@@ -52,14 +52,16 @@ if __name__ == '__main__':
         expert = Expert.objects.filter(organization=org, name=expert_name).first()
         periodical = Periodical.objects.filter(original_id=original_id).first()
         if periodical:
-            pass
+            print(f'periodical,id:{periodical.id},original_id:{original_id} 已存在')
         else:
             dic['original_id'] = original_id
             try:
                 periodical = Periodical.objects.create(**dic)
+                print(f'periodical,创建,id:{periodical.id},original_id:{original_id}')
             except Exception as exc:
                 print(exc, org, expert_name, file)
         try:
             expert.periodicals.add(periodical)
+            print(f'关联专家:{expert.id} 与 periodical:{periodical.id}')
         except Exception as exc:
             print(exc, org, expert_name, file)
