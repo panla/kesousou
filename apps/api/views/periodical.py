@@ -52,6 +52,9 @@ class ExpertPeriodicalsView(APIView):
 
 
 class PeriodicalView(generics.RetrieveAPIView):
+    queryset = Periodical.objects.all()
+    serializer_class = PeriodicalDetailSerializer
+
     @swagger_auto_schema(
         operation_id='periodical_read', responses={200: PeriodicalDetailSerializer()}, tags=['periodicals']
     )
