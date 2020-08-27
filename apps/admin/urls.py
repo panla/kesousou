@@ -7,6 +7,7 @@ try:
     from core.local.docs import admin_schema_view
 except ImportError:
     pass
+from admin.views.index import IndexView
 from admin.views.user import UserJWTView, UsersView, UserView
 from admin.views.expert import ExpertsView, ExpertView
 from admin.views.achievement import AchievementsView, ExpertAchievementsView, AchievementView
@@ -16,6 +17,7 @@ from admin.views.periodical import PeriodicalsView, ExpertPeriodicalsView, Perio
 
 app_name = 'admin'
 urlpatterns = [
+    re_path(r'^$', IndexView.as_view(), name='index'),
     re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^token/$', UserJWTView.as_view(), name='create_token'),
     re_path(r'^users/$', UsersView.as_view(), name='user_list_create'),
