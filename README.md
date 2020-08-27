@@ -5,7 +5,7 @@
 Python==3.8.3
 
 ```bash
-pip install docs/requirements.txt
+pip install -r docs/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simple]
 ```
 
 ## 配置
