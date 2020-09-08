@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from rest_framework.pagination import PageNumberPagination
 from drf_yasg import openapi
 

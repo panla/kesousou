@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from drf_yasg import openapi
 
 conference_filter_params = [

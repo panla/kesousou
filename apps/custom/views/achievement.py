@@ -19,7 +19,7 @@ class AchievementsView(APIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        科技成果列表，
+        查看科技成果列表，
         查询参数 text，排序字段 order
         模糊查询字段包括 title, keywords, organizations, creators
         精准查询字段包括 sn
@@ -45,7 +45,7 @@ class ExpertAchievementsView(APIView):
     )
     def get(self, request, expert_id, *args, **kwargs):
         """
-        某一个专家的科技成果列表
+        查看某一个专家的科技成果列表
         路径参数 expert_id，排序参数 order
         """
         order = request.query_params.get('order')
@@ -68,7 +68,4 @@ class AchievementView(generics.RetrieveAPIView):
         operation_id='achievement_read', responses={200: AchievementDetailSerializer()}, tags=['achievements']
     )
     def get(self, request, *args, **kwargs):
-        """
-        科技成果详情
-        """
         return self.retrieve(request, *args, **kwargs)

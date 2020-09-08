@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from django.db.models import Q
 from rest_framework import status
 from rest_framework import generics
@@ -26,6 +24,12 @@ class PatentsView(APIView):
         operation_id='patent_list', responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, *args, **kwargs):
+        """
+        查看专利列表，
+        查询参数 text，排序参数 order
+        模糊查询字段包括 name, inventors
+        精准查询字段包括 patent_code, publication_number
+        """
         text = request.query_params.get('text')
         order = request.query_params.get('order')
         queryset = Patent.objects.all()
@@ -48,6 +52,11 @@ class ExpertPatentsView(APIView):
         responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, expert_id, *args, **kwargs):
+         """
+        查看某专家的专利，
+        路径参数 expert_id
+        排序参数 order
+        """
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=expert_id).first()
         if expert:

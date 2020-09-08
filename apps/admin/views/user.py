@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 import datetime
 
 from django.db.models import Q
@@ -31,6 +29,9 @@ class UserJWTView(APIView):
         tags=['users']
     )
     def post(self, request, *args, **kwargs):
+        """
+        登录
+        """
         user = authenticate(request.data.get('username'), request.data.get('password'))
         if user:
             token = jwt_encode_handler(jwt_payload_handler(user))
@@ -56,6 +57,11 @@ class UsersView(APIView):
         responses={200: UserSerializer(many=True)}, tags=['users']
     )
     def get(self, request, *args, **kwargs):
+        """
+        查看用户列表，
+        查询参数 text, is_superuser, is_active，排序参数 order
+        查询字段包括 name, mobile, email
+        """
         text = request.query_params.get('text')
         is_superuser = request.query_params.get('is_superuser')
         is_active = request.query_params.get('is_active')
@@ -78,6 +84,9 @@ class UsersView(APIView):
         tags=['users']
     )
     def post(self, request, *args, **kwargs):
+        """
+        创建用户
+        """
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

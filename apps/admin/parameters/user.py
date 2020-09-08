@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from drf_yasg import openapi
 
 # 获得token的所需参数
@@ -21,6 +19,7 @@ create_token_response = openapi.Schema(
     }
 )
 
+# 请求接口时，HEADERS 参数
 token_parameters = [
     openapi.Parameter(
         name='Authorization', in_=openapi.IN_HEADER, description='Token token',

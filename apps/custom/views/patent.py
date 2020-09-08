@@ -19,7 +19,7 @@ class PatentsView(APIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        专利列表，
+        查看专利列表，
         查询参数 text，排序参数 order
         模糊查询字段包括 name, inventors
         精准查询字段包括 patent_code, publication_number
@@ -44,7 +44,7 @@ class ExpertPatentsView(APIView):
     )
     def get(self, request, expert_id, *args, **kwargs):
         """
-        某专家的专利，
+        查看某专家的专利，
         路径参数 expert_id
         排序参数 order
         """
@@ -68,7 +68,4 @@ class PatentView(generics.RetrieveAPIView):
         operation_id='patent_read', responses={200: PatentDetailSerializer()}, tags=['patents']
     )
     def get(self, request, *args, **kwargs):
-        """
-        专利详情
-        """
         return self.retrieve(request, *args, **kwargs)

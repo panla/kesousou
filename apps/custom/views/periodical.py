@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from django.db.models import Q
 from rest_framework import status
 from rest_framework import generics
@@ -21,7 +19,7 @@ class PeriodicalsView(APIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        期刊列表，
+        查看期刊列表，
         查询参数 text，排序参数 order
         模糊查询字段包括 title, keywords
         精准查询字段包括 doi, first_creator
@@ -46,7 +44,7 @@ class ExpertPeriodicalsView(APIView):
     )
     def get(self, request, expert_id, *args, **kwargs):
         """
-        某专家的期刊，
+        查看某专家的期刊，
         路径参数 expert_id
         排序参数 order
         """
@@ -70,7 +68,4 @@ class PeriodicalView(generics.RetrieveAPIView):
         operation_id='periodical_read', responses={200: PeriodicalDetailSerializer()}, tags=['periodicals']
     )
     def get(self, request, *args, **kwargs):
-        """
-        期刊详情
-        """
         return self.retrieve(request, *args, **kwargs)

@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from drf_yasg import openapi
 
 expert_filter_params = [

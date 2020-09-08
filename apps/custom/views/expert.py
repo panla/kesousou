@@ -19,7 +19,7 @@ class ExpertListView(APIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        专家列表，
+        查看专家列表，
         查询字段 text，排序参数 order
         模糊查询字段包括 major, research_areas, keywords
         精准查询字段包括 name, organization
@@ -46,7 +46,4 @@ class ExpertDetailView(generics.RetrieveAPIView):
         operation_id='expert_read', responses={200: ExpertDetailSerializer()}, tags=['experts']
     )
     def get(self, request, *args, **kwargs):
-        """
-        专家详情
-        """
         return self.retrieve(request, *args, **kwargs)
