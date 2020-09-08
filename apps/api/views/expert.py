@@ -1,5 +1,3 @@
-# -*- encoding=utf-8 -*-
-
 from django.db.models import Q
 from rest_framework import generics
 from rest_framework import status
@@ -15,12 +13,17 @@ from api.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
 
 
 class ExpertListView(APIView):
-
     @swagger_auto_schema(
         manual_parameters=expert_filter_params + order_params + page_params, operation_id='expert_list',
         responses={200: ExpertListSerializer(many=True)}, tags=['experts']
     )
     def get(self, request, *args, **kwargs):
+        """
+        专家列表，
+        查询字段 text，排序参数 order
+        模糊查询字段包括 major, research_areas, keywords
+        精准查询字段包括 name, organization
+        """
         text = request.query_params.get('text')
         order = request.query_params.get('order')
         queryset = Expert.objects.all()
@@ -43,4 +46,7 @@ class ExpertDetailView(generics.RetrieveAPIView):
         operation_id='expert_read', responses={200: ExpertDetailSerializer()}, tags=['experts']
     )
     def get(self, request, *args, **kwargs):
+        """
+        专家详情
+        """
         return self.retrieve(request, *args, **kwargs)

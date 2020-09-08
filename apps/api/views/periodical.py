@@ -20,6 +20,12 @@ class PeriodicalsView(APIView):
         responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, *args, **kwargs):
+        """
+        期刊列表，
+        查询参数 text，排序参数 order
+        模糊查询字段包括 title, keywords
+        精准查询字段包括 doi, first_creator
+        """
         text = request.query_params.get('text')
         order = request.query_params.get('order')
         queryset = Periodical.objects.all()
@@ -39,6 +45,11 @@ class ExpertPeriodicalsView(APIView):
         responses={200: PeriodicalListSerializer(many=True)}, tags=['periodicals']
     )
     def get(self, request, expert_id, *args, **kwargs):
+        """
+        某专家的期刊，
+        路径参数 expert_id
+        排序参数 order
+        """
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=expert_id).first()
         if expert:
@@ -59,4 +70,7 @@ class PeriodicalView(generics.RetrieveAPIView):
         operation_id='periodical_read', responses={200: PeriodicalDetailSerializer()}, tags=['periodicals']
     )
     def get(self, request, *args, **kwargs):
+        """
+        期刊详情
+        """
         return self.retrieve(request, *args, **kwargs)
