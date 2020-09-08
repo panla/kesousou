@@ -9,6 +9,9 @@ User = get_user_model()
 
 
 def authenticate(username=None, password=None, **kwargs):
+    """
+    用户认证，根据邮箱或手机号以及密码完成认证
+    """
     try:
         if username is None:
             username = kwargs.get(User.USERNAME_FIELD)
@@ -27,7 +30,7 @@ class IsAdminUser(BasePermission):
 
 
 class UserBackend(ModelBackend):
-    """ 自定义用户认证"""
+    """ 自定义用户认证，在 settings 通过 AUTHENTICATION_BACKENDS 指定"""
 
     def authenticate(self, request, username=None, password=None, **kwargs):
         return authenticate(username, password, **kwargs)
