@@ -1,12 +1,8 @@
-# -*- encoding=utf-8 -*-
+import os
 
 from django.urls import re_path, path
+from django.conf import settings
 
-from core.local.docs import api_schema_view
-try:
-    from core.local.docs import api_schema_view
-except ImportError:
-    pass
 from api.views.index import IndexView
 from api.views.expert import ExpertListView, ExpertDetailView
 from api.views.conference import ConferencesView, ExpertConferencesView, ConferenceView
@@ -17,7 +13,6 @@ from api.views.periodical import PeriodicalsView, ExpertPeriodicalsView, Periodi
 app_name = 'api'
 urlpatterns = [
     re_path(r'^$', IndexView.as_view(), name='index'),
-    re_path(r'^doc/$', api_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^experts/$', ExpertListView.as_view(), name='expert_list'),
     re_path(r'^experts/(?P<pk>\d+)/$', ExpertDetailView.as_view(), name='expert_detail'),
     re_path(

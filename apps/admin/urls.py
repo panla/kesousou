@@ -1,12 +1,8 @@
-# -*- encoding=utf-8 -*-
+import os
 
 from django.urls import re_path, path
+from django.conf import settings
 
-from core.docs import admin_schema_view
-try:
-    from core.local.docs import admin_schema_view
-except ImportError:
-    pass
 from admin.views.index import IndexView
 from admin.views.user import UserJWTView, UsersView, UserView
 from admin.views.expert import ExpertsView, ExpertView
@@ -18,7 +14,6 @@ from admin.views.periodical import PeriodicalsView, ExpertPeriodicalsView, Perio
 app_name = 'admin'
 urlpatterns = [
     re_path(r'^$', IndexView.as_view(), name='index'),
-    re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^token/$', UserJWTView.as_view(), name='create_token'),
     re_path(r'^users/$', UsersView.as_view(), name='user_list_create'),
     re_path(r'^users/(?P<pk>\d+)/$', UserView.as_view(), name='user_detail'),
@@ -43,3 +38,16 @@ urlpatterns = [
     re_path(r'^periodicals/$', PeriodicalsView.as_view(), name='periodical_list'),
     re_path(r'^periodicals/(?P<pk>\d+)/$', PeriodicalView.as_view(), name='periodical_detail'),
 ]
+
+if settings.DISPLAY_DOCS:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    if os.path.join(BASE_DIR, 'core/local/docs.py'):
+        try:
+            from core.local.docs import admin_schema_view
+            urlpatterns += [
+                re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+                ]
+        except Exception as exc:
+            raise Exception('need a local docs settings')
+    else:
+        raise Exception('need a local docs settings')
