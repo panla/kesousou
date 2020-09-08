@@ -52,10 +52,9 @@ class ExpertPatentsView(APIView):
         responses={200: PatentListSerializer(many=True)}, tags=['patents']
     )
     def get(self, request, expert_id, *args, **kwargs):
-         """
+        """
         查看某专家的专利，
-        路径参数 expert_id
-        排序参数 order
+        路径参数 expert_id，排序参数 order
         """
         order = request.query_params.get('order')
         expert = Expert.objects.filter(id=expert_id).first()
