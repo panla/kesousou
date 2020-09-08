@@ -18,18 +18,8 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'jxb6p__p_#1!$1m^8+55)!v48d1zr_6%&3em+l&kxm=&jh3g!+'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -157,7 +147,10 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
 
-try:
-    from core.local.settings import *
-except ImportError:
-    pass
+if os.path.isfile(os.path.join(BASE_DIR, 'core/local/settings.py')):
+    try:
+        from core.local.settings import *
+    except ImportError:
+        raise Exception('need a right local settings')
+else:
+    raise Exception('need a right local settings')
