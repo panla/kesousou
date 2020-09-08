@@ -57,9 +57,8 @@ class ExpertConferencesView(APIView):
         路径参数 expert_id，排序参数 order
         """
         order = request.query_params.get('order')
-        expert = Expert.objects.filter(id=expert_id).first()
-        if expert:
-            queryset = expert.conferences.all()
+        queryset = Conference.filter_by_expert_id(expert_id)
+        if queryset:
             if order:
                 queryset = queryset.order_by(order)
             data = get_results(request, queryset, self, ConferenceListSerializer)
