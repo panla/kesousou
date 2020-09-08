@@ -194,12 +194,12 @@ class Expert(AbstractModel):
 
 class ActionRecord(AbstractModel):
     page = models.CharField('操作页面', max_length=400)
-    action = models.CharField('操作', max_length=100)
-    ip = models.CharField('用户ip', max_length=100)
-    terminal = models.CharField('操作使用的终端', max_length=100)
+    action = models.CharField('动作', max_length=100)
+    ip = models.CharField('用户ip', max_length=100, null=True)
+    terminal = models.CharField('操作使用的终端', max_length=100, null=True)
     name = models.CharField('用户名', max_length=100, null=True)
     role = models.CharField('用户类型', max_length=100)
-    description = models.TextField('用户操作说明')
+    description = models.TextField('用户操作说明', null=True)
 
     class Meta:
         db_table = 'action_records'
@@ -227,6 +227,14 @@ class Conference(AbstractModel):
     class Meta:
         db_table = 'conferences'
 
+    @classmethod
+    def filter_by_expert_id(cls, expert_id):
+        expert = Expert.objects.filter(id=expert_id).first()
+        if expert:
+            return expert.conferences.all()
+        else:
+            return None
+
 
 class Patent(AbstractModel):
     original_id = models.CharField('源数据id', max_length=100, null=True, unique=True, db_index=True)
@@ -249,6 +257,14 @@ class Patent(AbstractModel):
 
     class Meta:
         db_table = 'patents'
+
+    @classmethod
+    def filter_by_expert_id(cls, expert_id):
+        expert = Expert.objects.filter(id=expert_id).first()
+        if expert:
+            return expert.patents.all()
+        else:
+            return None
 
 
 class Periodical(AbstractModel):
@@ -273,6 +289,14 @@ class Periodical(AbstractModel):
     class Meta:
         db_table = 'periodicals'
 
+    @classmethod
+    def filter_by_expert_id(cls, expert_id):
+        expert = Expert.objects.filter(id=expert_id).first()
+        if expert:
+            return expert.periodicals.all()
+        else:
+            return None
+
 
 class Achievement(AbstractModel):
     original_id = models.CharField('源数据id', max_length=100, null=True, unique=True, db_index=True)
@@ -293,3 +317,11 @@ class Achievement(AbstractModel):
 
     class Meta:
         db_table = 'achievements'
+
+    @classmethod
+    def filter_by_expert_id(cls, expert_id):
+        expert = Expert.objects.filter(id=expert_id).first()
+        if expert:
+            return expert.achievements.all()
+        else:
+            return None
