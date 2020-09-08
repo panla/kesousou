@@ -103,6 +103,7 @@ print(utils.get_random_secret_key())
 `core/local/settings.py`
 
 ```text
+# 是否显示 swagger 文档
 DISPLAY_DOCS = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
