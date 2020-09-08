@@ -8,8 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Achievement
-from api.parameters.achievement import achievement_filter_params
-from api.serializers.achievement import AchievementListSerializer, AchievementDetailSerializer
+from custom.parameters.achievement import achievement_filter_params
+from custom.serializers.achievement import AchievementListSerializer, AchievementDetailSerializer
 
 
 class AchievementsView(APIView):

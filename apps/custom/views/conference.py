@@ -8,8 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Conference
-from api.parameters.conference import conference_filter_params
-from api.serializers.conference import ConferenceListSerializer, ConferenceDetailSerializer
+from custom.parameters.conference import conference_filter_params
+from custom.serializers.conference import ConferenceListSerializer, ConferenceDetailSerializer
 
 
 class ConferencesView(APIView):

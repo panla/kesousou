@@ -8,8 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert
-from api.parameters.expert import expert_filter_params
-from api.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
+from custom.parameters.expert import expert_filter_params
+from custom.serializers.expert import ExpertListSerializer, ExpertDetailSerializer
 
 
 class ExpertListView(APIView):

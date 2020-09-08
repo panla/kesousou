@@ -10,8 +10,8 @@ from drf_yasg.utils import swagger_auto_schema
 from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Periodical
-from api.serializers.periodical import PeriodicalListSerializer, PeriodicalDetailSerializer
-from api.parameters.periodical import periodical_filter_params
+from custom.serializers.periodical import PeriodicalListSerializer, PeriodicalDetailSerializer
+from custom.parameters.periodical import periodical_filter_params
 
 
 class PeriodicalsView(APIView):

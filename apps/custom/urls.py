@@ -1,16 +1,16 @@
 import os
 
-from django.urls import re_path, path
+from django.urls import re_path
 from django.conf import settings
 
-from api.views.index import IndexView
-from api.views.expert import ExpertListView, ExpertDetailView
-from api.views.conference import ConferencesView, ExpertConferencesView, ConferenceView
-from api.views.patent import PatentsView, ExpertPatentsView, PatentView
-from api.views.achievement import AchievementsView, ExpertAchievementsView, AchievementView
-from api.views.periodical import PeriodicalsView, ExpertPeriodicalsView, PeriodicalView
+from custom.views.index import IndexView
+from custom.views.expert import ExpertListView, ExpertDetailView
+from custom.views.conference import ConferencesView, ExpertConferencesView, ConferenceView
+from custom.views.patent import PatentsView, ExpertPatentsView, PatentView
+from custom.views.achievement import AchievementsView, ExpertAchievementsView, AchievementView
+from custom.views.periodical import PeriodicalsView, ExpertPeriodicalsView, PeriodicalView
 
-app_name = 'api'
+app_name = 'custom'
 urlpatterns = [
     re_path(r'^$', IndexView.as_view(), name='index'),
     re_path(r'^experts/$', ExpertListView.as_view(), name='expert_list'),
@@ -40,9 +40,10 @@ if settings.DISPLAY_DOCS:
     if os.path.join(BASE_DIR, 'core/local/docs.py'):
         try:
             from core.local.docs import admin_schema_view
+
             urlpatterns += [
                 re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
-                ]
+            ]
         except Exception as exc:
             raise Exception('need a local docs settings')
     else:

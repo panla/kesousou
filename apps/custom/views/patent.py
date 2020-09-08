@@ -8,8 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from common.page import get_results, page_params
 from common.order import order_params
 from model.models import Expert, Patent
-from api.serializers.patent import PatentListSerializer, PatentDetailSerializer
-from api.parameters.patent import patent_filter_params
+from custom.serializers.patent import PatentListSerializer, PatentDetailSerializer
+from custom.parameters.patent import patent_filter_params
 
 
 class PatentsView(APIView):

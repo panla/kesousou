@@ -1,6 +1,6 @@
 import os
 
-from django.urls import re_path, path
+from django.urls import re_path
 from django.conf import settings
 
 from admin.views.index import IndexView
@@ -44,9 +44,10 @@ if settings.DISPLAY_DOCS:
     if os.path.join(BASE_DIR, 'core/local/docs.py'):
         try:
             from core.local.docs import admin_schema_view
+
             urlpatterns += [
                 re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
-                ]
+            ]
         except Exception as exc:
             raise Exception('need a local docs settings')
     else:
