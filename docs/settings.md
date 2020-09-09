@@ -11,14 +11,13 @@ from drf_yasg.views import get_schema_view
 
 from common.users import IsAdminUser
 
-api_schema_view = get_schema_view(
+custom_schema_view = get_schema_view(
     info=openapi.Info(
         title="Science Data API",
         default_version="v1.0",
-        description="练习文档",
-        terms_of_service="http://localhost:8201/api/",
+        description="科搜搜custom端",
     ),
-    url="http://localhost:8201/api/",
+    url="http://localhost:8201/custom/",
     public=True,
     permission_classes=(IsAdminUser,),
 )
@@ -27,8 +26,8 @@ admin_schema_view = get_schema_view(
     info=openapi.Info(
         title="Science Data API",
         default_version="v1.0",
-        description="练习文档",
-        terms_of_service="http://localhost:8201/admin/",
+        description="科搜搜admin端",
+        terms_of_service="http://localhost:9101/admin/",
     ),
     url="http://localhost:8201/admin/",
     public=True,
@@ -36,10 +35,13 @@ admin_schema_view = get_schema_view(
 )
 ```
 
-```text
-运行 python manage.py runserver localhost:7501
-访问 localhost:8201/admin/doc/
-访问 localhost:8201/api/doc/
+```bash
+python manage.py runserver 127.0.0.1:8200
+uvicorn core.asgi:application --port 8200
+
+# 访问 localhost:8201/api-auth/login/
+# 访问 localhost:8201/admin/doc/
+# 访问 localhost:8201/api/doc/
 ```
 
 ## nginx
@@ -110,9 +112,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOR = os.path.join(BASE_DIR, 'upload')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 
-DEBUG = True/False
+DEBUG = False
 
-ALLOWED_HOSTS = []/['*']
+ALLOWED_HOSTS = ['*']
 ```

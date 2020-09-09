@@ -39,10 +39,10 @@ if settings.DISPLAY_DOCS:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     if os.path.join(BASE_DIR, 'core/local/docs.py'):
         try:
-            from core.local.docs import admin_schema_view
+            from core.local.docs import custom_schema_view
 
             urlpatterns += [
-                re_path(r'^doc/$', admin_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+                re_path(r'^doc/$', custom_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
             ]
         except Exception as exc:
             raise Exception('need a local docs settings')
