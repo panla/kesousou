@@ -13,7 +13,6 @@ from admin.views.periodical import PeriodicalsView, ExpertPeriodicalsView, Perio
 
 app_name = 'admin'
 urlpatterns = [
-    re_path(r'^$', IndexView.as_view(), name='index'),
     re_path(r'^token/$', UserJWTView.as_view(), name='create_token'),
     re_path(r'^users/$', UsersView.as_view(), name='user_list_create'),
     re_path(r'^users/(?P<pk>\d+)/$', UserView.as_view(), name='user_detail'),

@@ -12,7 +12,6 @@ from custom.views.periodical import PeriodicalsView, ExpertPeriodicalsView, Peri
 
 app_name = 'custom'
 urlpatterns = [
-    re_path(r'^$', IndexView.as_view(), name='index'),
     re_path(r'^experts/$', ExpertListView.as_view(), name='expert_list'),
     re_path(r'^experts/(?P<pk>\d+)/$', ExpertDetailView.as_view(), name='expert_detail'),
     re_path(
@@ -45,6 +44,6 @@ if settings.DISPLAY_DOCS:
                 re_path(r'^doc/$', custom_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
             ]
         except Exception as exc:
-            raise Exception('need a local docs settings')
+            raise Exception('need a right local docs settings')
     else:
         raise Exception('need a local docs settings')

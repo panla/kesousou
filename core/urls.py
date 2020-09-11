@@ -18,7 +18,8 @@ from custom.views.index import IndexView
 
 urlpatterns = [
     re_path(r'^$', IndexView.as_view(), name='index'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    re_path(r'accounts/profile/$', IndexView.as_view()),
+    path('auth/login/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', include('admin.urls', namespace='admin')),
     path('custom/', include('custom.urls', namespace='custom')),
 ]
