@@ -7,7 +7,7 @@ coreschema==0.0.4
 Django==3.0.7
 django-filter==2.3.0
 django-mysql==3.8.1
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 drf-yasg==1.17.1
 gunicorn==20.0.4
