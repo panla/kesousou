@@ -2,7 +2,7 @@
 
 ## 环境
 
-Python==3.8.3
+Python==3.8.8
 
 ```bash
 pip install -r docs/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simple]
